@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready( function () {
+            $('#studentTable').DataTable();
+        });
+    </script>
+
+    <style>
+        #register_form{
+            width:300px;
+            margin:auto;
+            box-shadow:1px 1px 10px grey;
+            padding:20px 10px 20px 10px;
+        }
+
+        input{
+            margin-top:10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="row" style="margin-top: 100px;">
+    <div class="col-md-3">
+        <form action="#" id="register_form" th:action="@{/users}" th:object="${user}" method="post">
+            <h1>Register form</h1>
+            <input type="text" class="form-control" placeholder="Student no" th:field="*{student_no}">
+            <input class="form-control" type="text" placeholder="Name" th:field="*{name}" />
+            <input class="form-control" type="text" placeholder="Surname" th:field="*{surname}" />
+            <input class="form-control" type="text" placeholder="Email" th:field="*{email}" />
+            <input class="btn btn-success" type="submit" value="Submit" />
+        </form>
+
+    </div>
+
+    <div class="col-md-9">
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Surname</th>
+                    <th>Student No</th>
+                    <th>Operations</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.surname}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.student_no}"></td>
+                    <td>
+                        <a th:href="@{'/users/' + ${user.id} + '/delete'}" onclick="return confirm('Silmek istediyinizden eminsiniz mi?')" class="btn btn-danger">Delete</a>
+                        <a th:href="@{'/users/' + ${user.id} + '/edit'}" class="btn btn-primary">Edit</a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>
